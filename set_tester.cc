@@ -5,7 +5,7 @@
 #include "llrb_set.h"
 
 // Tester
-int main() {
+int main1() {
   LLRB_set<int> set;
   std::vector<int> keys{2, 18, 42, 43, 51, 54, 74, 93, 99};
 
