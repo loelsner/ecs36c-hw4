@@ -248,7 +248,7 @@ void LLRB_map<K, V>::Insert(const K &key, const V & value) {
 template <typename K, typename V>
 void LLRB_map<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V & value) {
   if (!n)
-    n = std::unique_ptr<Node>(new Node{key, RED});
+    n = std::unique_ptr<Node>(new Node{key, value, RED});
   else if (key < n->key)
     Insert(n->left, key, value);
   else if (key > n->key)
