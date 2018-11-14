@@ -81,6 +81,8 @@ template<typename K, typename V>
 const V & LLRB_map<K, V>::Get(const K & key)
 {
 	Node* n = Get(root.get(), key);
+
+	if (!n) throw std::runtime_error("Could not find node. (MIGHT NEED TO REWORD THIS ERROR STRING)");
 	return n->value;
 }
 
