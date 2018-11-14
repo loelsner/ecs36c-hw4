@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <list>
 
 template <typename K, typename V>
 class LLRB_multimap {
@@ -28,7 +29,7 @@ private:
 	enum Color { RED, BLACK };
 	struct Node {
 		K key;
-		V value;
+		std::list<V> values;
 		bool color;
 		std::unique_ptr<Node> left;
 		std::unique_ptr<Node> right;
