@@ -235,13 +235,18 @@ void LLRB_multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
 			MoveRedRight(n);
 
 		if (key == n->key) {
-			// Find min node in the right subtree
-			Node *n_min = Min(n->right.get());
-			// Copy content from min node
-			n->key = n_min->key;
-			n->values = n_min->values; // ??????
-			// Delete min node recursively
-			DeleteMin(n->right);
+			if (n->values.size() == 1) {
+				// Find min node in the right subtree
+				Node *n_min = Min(n->right.get());
+				// Copy content from min node
+				n->key = n_min->key;
+				n->values = n_min->values; // ??????
+				// Delete min node recursively
+				DeleteMin(n->right);
+			}
+			else {
+				n->values.pop_front();
+			}
 		}
 		else {
 			Remove(n->right, key);

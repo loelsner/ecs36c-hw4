@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-int main(int argc, char* argv[]) {
+int main1(int argc, char* argv[]) {
 
 	/* ORIGINAL TEST */
 	LLRB_map<int, std::string> llrb1;
