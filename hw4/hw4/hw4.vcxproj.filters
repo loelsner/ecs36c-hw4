@@ -21,12 +21,18 @@
     <ClInclude Include="..\..\llrb_set.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="llrb_multimap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\map_tester.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\set_tester.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="multimap_tester.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
