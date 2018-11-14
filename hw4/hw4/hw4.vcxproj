@@ -157,10 +157,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\llrb_map.h" />
     <ClInclude Include="..\..\llrb_set.h" />
+    <ClInclude Include="llrb_multimap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\map_tester.cc" />
     <ClCompile Include="..\..\set_tester.cc" />
+    <ClCompile Include="multimap_tester.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

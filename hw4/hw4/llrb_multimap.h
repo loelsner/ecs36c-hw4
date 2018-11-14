@@ -82,7 +82,7 @@ template<typename K, typename V>
 const V & LLRB_multimap<K, V>::Get(const K & key)
 {
 	Node* n = Get(root.get(), key);
-	return n->value;
+	return (n->values).Front();
 }
 
 template <typename K, typename V>
@@ -216,9 +216,18 @@ void LLRB_multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
 		if (IsRed(n->left.get()))
 			RotateRight(n);
 
-		if (key == n->key && !n->right) {
+		bool test =(nullptr == n->right);
+		bool test2 = (key == n->key);
+		bool test4 = !(n->right);
+		bool test3 = ((key == n->key) && !n->right);
+		if ((key == n->key) && !n->right) {
 			// Remove n
-			n = nullptr;
+			if (n->values.size() == 1) {
+				n = nullptr;
+			}
+			else {
+				n->values.pop_front();
+			}
 			return;
 		}
 
@@ -230,7 +239,7 @@ void LLRB_multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
 			Node *n_min = Min(n->right.get());
 			// Copy content from min node
 			n->key = n_min->key;
-			n->value = n_min->value; // ??????
+			n->values = n_min->values; // ??????
 			// Delete min node recursively
 			DeleteMin(n->right);
 		}
@@ -251,14 +260,16 @@ void LLRB_multimap<K, V>::Insert(const K &key, const V & value) {
 
 template <typename K, typename V>
 void LLRB_multimap<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V & value) {
-	if (!n)
-		n = std::unique_ptr<Node>(new Node{ key, value, RED });
+	if (!n) {
+		std::list<V> values = { value };
+		n = std::unique_ptr<Node>(new Node{ key, values, RED });
+	}
 	else if (key < n->key)
 		Insert(n->left, key, value);
 	else if (key > n->key)
 		Insert(n->right, key, value);
 	else
-		throw std::runtime_error("Key already inserted");
+		(n->values).push_back(value);
 
 	FixUp(n);
 }
@@ -273,7 +284,12 @@ template <typename K, typename V>
 void LLRB_multimap<K, V>::Print(Node *n) {
 	if (!n) return;
 	Print(n->left.get());
-	std::cout << "<" << n->key << "~" << n->value << "> ";
+	std::cout << "<" << n->key << "~";
+	for(auto item : n->values)
+	{
+		std::cout << item << ", ";
+	}
+	std::cout << "> ";
 	Print(n->right.get());
 }
 
