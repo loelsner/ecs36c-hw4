@@ -1,5 +1,5 @@
-#ifndef LLRB_map_H_
-#define LLRB_map_H_
+#ifndef LLRB_MAP_H_
+#define LLRB_MAP_H_
 
 #include <iostream>
 #include <memory>
@@ -228,6 +228,7 @@ void LLRB_map<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
       Node *n_min = Min(n->right.get());
       // Copy content from min node
       n->key = n_min->key;
+	  n->value = n_min->value; // ??????
       // Delete min node recursively
       DeleteMin(n->right);
     } else {
@@ -269,7 +270,7 @@ template <typename K, typename V>
 void LLRB_map<K, V>::Print(Node *n) {
   if (!n) return;
   Print(n->left.get());
-  std::cout << "<" << n->key << "> ";
+  std::cout << "<" << n->key << "~" << n->value << "> ";
   Print(n->right.get());
 }
 
