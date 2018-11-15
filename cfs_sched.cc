@@ -17,24 +17,22 @@ public:
 	}
 };
 
-bool Run(LLRB_multimap<int, Task>& cfs, int min_vruntime, int tick, ) {
-	if (cfs.Size() == 0) return false;
+class CFS
+{
+public:
+	CFS(std::ifstream& in);
+	//~CFS();
 
-	if (cfs.Contains(tick) || )
-	if (tick == cfs.Min()) {
-		int totalTasks = cfs.
-			std::cout << tick << " " << "[";
-	}
-	return;
-}
+private:
+	friend class LLRB_multimap<int, Task>;
+	LLRB_multimap<int, Task> tree;
+	int min_vruntime;
+	
 
-int main(int argc, char* argv[]) {
-	std::ifstream in(argv[1]);
+};
 
-	if (in.good()) std::cout << "its good"<<std::endl;
-
-	LLRB_multimap<int, Task> cfs;
-	int totalTasks;
+CFS::CFS(std::ifstream& in)
+{
 	while (in.peek() != EOF) {
 		char id;
 		in >> id;
@@ -43,15 +41,34 @@ int main(int argc, char* argv[]) {
 		int duration;
 		in >> duration;
 		Task task(id, duration);
-		cfs.Insert(startTime, task);
+		tree.Insert(startTime, task);
 	}
 
-	cfs.Print();
+}
+
+
+bool Run(LLRB_multimap<int, Task>& cfs, int min_vruntime, int tick) {
+	if (cfs.Size() == 0) return false;
+
+	if (cfs.Contains(tick))
+	if (tick == cfs.Min()) {
+			//std::cout << tick << " " << "[";
+	}
+	return true;
+}
+
+int main(int argc, char* argv[]) {
+	std::ifstream in(argv[1]);
+
+	if (in.good()) std::cout << "its good"<<std::endl;
+
+	CFS cfs(in);
+	
 
 	int min_vruntime = 0;
 	int tick = 0;
 
-	Run(cfs, min_vruntime, tick);
+	//Run(cfs, min_vruntime, tick);
 
 	std::cout << " Hi";
 	return 0;
