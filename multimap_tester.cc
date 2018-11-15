@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-int main1(int argc, char* argv[]) {
+int main1() {
 
 	/* ORIGINAL TEST: 1 item lists */
 	LLRB_multimap<int, std::string> llrb1;
