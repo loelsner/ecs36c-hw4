@@ -24,6 +24,8 @@ public:
 	void Remove(const K &key);
 	// Print tree in-order
 	void Print();
+	// Get min node list entry
+	
 
 private:
 	enum Color { RED, BLACK };
