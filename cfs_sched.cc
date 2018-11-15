@@ -4,23 +4,40 @@
 
 #include <fstream>
 #include <iostream>
+#include <list>
 
 class Task {
 public:
 	char _id;
-	int _duration; // max runtime
+	int _startTime;
+	int _duration; // max _runtime
 	int _runtime;
-	Task(char id, int duration) : _id(id), _duration(duration), _runtime(0) {}
+	int _vRuntime; 
+
+	Task(char id, int startTime, int duration) : _id(id), _startTime(startTime), _duration(duration), _runtime(0) {}
 	friend std::ostream& operator<<(std::ostream& stream, const Task& task) {
 		stream << task._id;
 		return stream;
 	}
+	bool operator<(const Task& right) const {
+		if (_startTime < right._startTime) {
+			return true;
+		}
+		if (_startTime > right._startTime) {
+			return false;
+		}
+		if (_id < right._id) {
+			return true;
+		}
+		return false;
+	}
 };
+
 
 class CFS
 {
 public:
-	CFS(std::ifstream& in);
+	CFS();
 	//~CFS();
 
 private:
@@ -30,21 +47,6 @@ private:
 	
 
 };
-
-CFS::CFS(std::ifstream& in)
-{
-	while (in.peek() != EOF) {
-		char id;
-		in >> id;
-		int startTime;
-		in >> startTime;
-		int duration;
-		in >> duration;
-		Task task(id, duration);
-		tree.Insert(startTime, task);
-	}
-
-}
 
 
 bool Run(LLRB_multimap<int, Task>& cfs, int min_vruntime, int tick) {
@@ -62,8 +64,27 @@ int main(int argc, char* argv[]) {
 
 	if (in.good()) std::cout << "its good"<<std::endl;
 
-	CFS cfs(in);
+	std::list<Task>	sortedTasks;
 	
+	char id;
+	while (in >> id) {
+		int startTime;
+		in >> startTime;
+		int duration;
+		in >> duration;
+		Task task(id, startTime, duration);
+		sortedTasks.push_back(task);
+	}	
+
+	for (Task task : sortedTasks){
+		std::cout << task << std::endl;
+	}
+
+	sortedTasks.sort();
+	std::cout << std::endl;
+	for (Task task : sortedTasks) {
+		std::cout << task << std::endl;
+	}
 
 	int min_vruntime = 0;
 	int tick = 0;
