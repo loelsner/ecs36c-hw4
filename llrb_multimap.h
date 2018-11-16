@@ -26,6 +26,7 @@ public:
 	void Print();
 	// Get min node list entry
 	
+	const V& Get(const K& key);
 
 private:
 	enum Color { RED, BLACK };
@@ -41,7 +42,6 @@ private:
 
 	// Iterative helper methods
 	Node* Get(Node *n, const K &key);
-	const V& Get(const K& key);
 
 	// Recursive helper methods
 	Node* Min(Node *n);
@@ -84,7 +84,7 @@ template<typename K, typename V>
 const V & LLRB_multimap<K, V>::Get(const K & key)
 {
 	Node* n = Get(root.get(), key);
-	return (n->values).Front();
+	return (n->values).front();
 }
 
 template <typename K, typename V>
