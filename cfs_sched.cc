@@ -11,7 +11,7 @@ public:
 	char _id;
 	int _startTime;
 	int _duration; // max _runtime
-	int _runtime;
+	int _runtime; 
 	int _vRuntime; //  = starttime + runtime
 
 	Task(char id, int startTime, int duration) : _id(id), _startTime(startTime), _duration(duration), _runtime(0) {}
