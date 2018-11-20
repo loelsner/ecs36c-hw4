@@ -59,8 +59,7 @@ void CFS::RunTask(int& tick) {
 	int key = tree.Min();
 	Task* task = tree.Get(key);
 	tree.Remove(key);
-
-	if (tree.Min() != min_vruntime) {
+	if (tree.Size() != 0 && tree.Min() != min_vruntime) {
 		min_vruntime++;
 	}
 
@@ -68,13 +67,15 @@ void CFS::RunTask(int& tick) {
 	task->_vRuntime++;
 	std::cout << tick << " [" << tree.Size() << "]: " << task->_id;
 
-	if (tree.Min() <= min_vruntime) {
-		task->_runtime++;
-		task->_vRuntime++;
-		++tick;
-		std::cout << std::endl << tick << " [" << tree.Size() << "]: " << task->_id;
+	if (task->_duration != task->_runtime) { // if the task isn't complete
+		if (tree.Size() != 0 && task->_vRuntime <= min_vruntime) { // if there isn't only one task && the task's vRuntime is <= min_vruntime
+			task->_runtime++;
+			task->_vRuntime++;
+			++tick;
+			std::cout << std::endl << tick << " [" << tree.Size() << "]: " << task->_id;
+		}
 	}
-	
+
 	// if task isn't completed, put it back in the tree
 	if (task->_duration != task->_runtime) {
 		tree.Insert(task->_vRuntime, task);
@@ -88,7 +89,7 @@ void CFS::RunTask(int& tick) {
 int main(int argc, char* argv[]) {
 	std::ifstream in(argv[1]);
 
-	if (in.good()) std::cout << "its good"<<std::endl;
+	if (in.good()) std::cout << "its good" << std::endl;
 
 	std::list<Task*> sortedTasks;
 	
@@ -99,13 +100,13 @@ int main(int argc, char* argv[]) {
 		int duration;
 		in >> duration;
 		sortedTasks.push_back(new Task(id, startTime, duration));
-	}	
+	}
 
 	for (Task* task : sortedTasks){
 		std::cout << *task << std::endl;
 	}
 
-	sortedTasks.sort();
+	//sortedTasks.sort();
 	std::cout << std::endl;
 	for (Task* task : sortedTasks) {
 		std::cout << *task << std::endl;
@@ -114,17 +115,14 @@ int main(int argc, char* argv[]) {
 	int min_vruntime = 0;
 	int tick = 0;
 	CFS cfs;
-	while (sortedTasks.size() > 0 || !cfs.IsEmpty())
-	{
-		while ((sortedTasks.size() != 0) && (tick >= (sortedTasks.front())->_startTime))
-		{
+	while (sortedTasks.size() > 0 || !cfs.IsEmpty()) {
+		while ((sortedTasks.size() != 0) && (tick >= (sortedTasks.front())->_startTime)) {
 			cfs.AddTask(sortedTasks.front());
 			sortedTasks.pop_front();
 		}
 
 		// do tree stuff
-		if (!cfs.IsEmpty())
-		{
+		if (!cfs.IsEmpty()) {
 			cfs.RunTask(tick);
 		}
 		else {

@@ -1,0 +1,8 @@
+# ignore .exe files
+*.exe
+#ignore .pdb files
+*.pdb
+#ignore .log files
+*.log
+# ignore .obj files
+*.obj
