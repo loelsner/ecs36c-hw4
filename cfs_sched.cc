@@ -56,39 +56,33 @@ private:
 
 void CFS::RunTask(int& tick) {
 
-		
-	if (tree.Min() != min_vruntime) // ???
-		{
-			min_vruntime++;
-		}
-	//if (tree.Min() <= min_vruntime)
-	//{
-		int key = tree.Min();
-		Task* task = tree.Get(key);
+	int key = tree.Min();
+	Task* task = tree.Get(key);
+	tree.Remove(key);
+
+	if (tree.Min() != min_vruntime) {
+		min_vruntime++;
+	}
+
+	task->_runtime++;
+	task->_vRuntime++;
+	std::cout << tick << " [" << tree.Size() << "]: " << task->_id;
+
+	if (tree.Min() <= min_vruntime) {
 		task->_runtime++;
 		task->_vRuntime++;
+		++tick;
+		std::cout << std::endl << tick << " [" << tree.Size() << "]: " << task->_id;
+	}
+	
+	// if task isn't completed, put it back in the tree
+	if (task->_duration != task->_runtime) {
+		tree.Insert(task->_vRuntime, task);
+		std::cout << std::endl;
+	} else { // the task is done
+		std::cout << "*" << std::endl;
+	}
 
-		std::cout << tick << " [" << tree.Size() << "]: " << task->_id << std::endl;
-
-		if (task->_vRuntime >= min_vruntime)
-		{
-			tree.Remove(key);
-		}
-
-
-		if (task->_duration != task->_runtime) // if task isn't completed
-		{
-			if (task->_vRuntime <= min_vruntime)
-			{
-				tree.Insert(key, task);
-			}
-			else
-			{
-				tree.Insert(key + 1, task);
-			}
-		}
-
-	//}
 }
 
 int main(int argc, char* argv[]) {
