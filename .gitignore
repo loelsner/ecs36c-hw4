@@ -6,3 +6,8 @@
 *.log
 # ignore .obj files
 *.obj
+# ignore .suo files
+*.suo
+
+# from the Build
+[Dd]ebug/
