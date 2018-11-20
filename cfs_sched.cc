@@ -87,9 +87,16 @@ void CFS::RunTask(int& tick) {
 }
 
 int main(int argc, char* argv[]) {
-	std::ifstream in(argv[1]);
+	if (argc != 2) {
+		std::cerr << "Usage: " << argv[0] << " <task_file.dat>" << std::endl;
+		return 1; // ???
+	}
 
-	if (in.good()) std::cout << "its good" << std::endl;
+	std::ifstream in(argv[1]);
+	if (!in.good()) {
+		std::cerr << "Error: cannot open file " << argv[1] << std::endl;
+		return 1; // ??? 
+	}
 
 	std::list<Task*> sortedTasks;
 	
@@ -130,8 +137,6 @@ int main(int argc, char* argv[]) {
 		}
 		tick++;
 	}
-	//Run(cfs, min_vruntime, tick);
 
-	std::cout << " Hi";
 	return 0;
 }
