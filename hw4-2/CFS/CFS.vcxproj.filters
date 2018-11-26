@@ -20,10 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\tasks2.dat">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="..\..\tasks1.dat">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\tasks2.dat">
+    <None Include="..\..\tasks3.dat">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
