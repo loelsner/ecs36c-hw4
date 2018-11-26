@@ -26,5 +26,8 @@
     <None Include="..\..\tasks1.dat">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\tasks3.dat">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include "llrb_multimap.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <list>
@@ -65,14 +66,14 @@ void CFS::RunTask(int& tick) {
 
 	task->_runtime++;
 	task->_vRuntime++;
-	std::cout << tick << " [" << tree.Size() << "]: " << task->_id;
+	std::cout << tick << " [" << tree.Size() + 1 << "]: " << task->_id;
 
 	if (task->_duration != task->_runtime) { // if the task isn't complete
 		if (tree.Size() != 0 && task->_vRuntime <= min_vruntime) { // if there isn't only one task && the task's vRuntime is <= min_vruntime
 			task->_runtime++;
 			task->_vRuntime++;
 			++tick;
-			std::cout << std::endl << tick << " [" << tree.Size() << "]: " << task->_id;
+			std::cout << std::endl << tick << " [" << tree.Size() + 1 << "]: " << task->_id;
 		}
 	}
 
@@ -113,6 +114,13 @@ int main(int argc, char* argv[]) {
 		std::cout << *task << std::endl;
 	}
 
+	sortedTasks.sort(
+		[](const Task* left, const Task* right) -> bool {
+		if (left->_startTime < right->_startTime) return true;
+		if (left->_startTime > right->_startTime) return false;
+		return (left->_id < right->_id);
+		}
+	);
 	//sortedTasks.sort();
 	std::cout << std::endl;
 	for (Task* task : sortedTasks) {
@@ -138,5 +146,5 @@ int main(int argc, char* argv[]) {
 		tick++;
 	}
 
-	return 0;
+ 	return 0;
 }
