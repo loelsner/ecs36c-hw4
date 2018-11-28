@@ -1,10 +1,10 @@
 // set_tester.cc
 
+#include "llrb_set.h"
+
 #include <algorithm>
 #include <iostream>
 #include <vector>
-
-#include "llrb_set.h"
 
 // Tester
 int main1() {
