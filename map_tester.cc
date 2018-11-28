@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 	/* Testing Errors */
 	try {
 		std::cout << "Remove Y" << std::endl;
-		llrb2.Remove('Y'); // TODO: Make an exception for this
+		llrb2.Remove('Y');
 		llrb2.Print();
 	}
 	catch (std::exception &e) {
