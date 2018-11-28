@@ -114,11 +114,6 @@ int main(int argc, char* argv[]) {
     sortedTasks.push_back(new Task(id, startTime, duration));
   }
 
-  // Print unsorted list of tasks
-  for (Task* task : sortedTasks) {
-    std::cout << *task << std::endl;
-  }
-
   // Sort list of tasks
   sortedTasks.sort(
     [](const Task* left, const Task* right) -> bool {
@@ -126,13 +121,6 @@ int main(int argc, char* argv[]) {
     if (left->_startTime > right->_startTime) return false;
     return (left->_id < right->_id);
     });
-
-  std::cout << std::endl;
-
-  // Print sorted list of tasks
-  for (Task* task : sortedTasks) {
-    std::cout << *task << std::endl;
-  }
 
   // Set initial CFS variables
   int min_vruntime = 0;
