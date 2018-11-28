@@ -30,7 +30,7 @@ class LLRB_map {
   enum Color { RED, BLACK };
   struct Node{
     K key;
-	V value;
+  V value;
     bool color;
     std::unique_ptr<Node> left;
     std::unique_ptr<Node> right;
@@ -44,7 +44,7 @@ class LLRB_map {
   // Recursive helper methods
   Node* Min(Node *n);
   void Insert(std::unique_ptr<Node> &n, const K &key, const V & value);
-  void Remove(std::unique_ptr<Node> &n, const K &key); // TODO
+  void Remove(std::unique_ptr<Node> &n, const K &key);
   void Print(Node *n);
 
   // Helper methods for the self-balancing
@@ -79,12 +79,11 @@ typename LLRB_map<K, V>::Node* LLRB_map<K, V>::Get(LLRB_map<K, V>::Node* n,
 }
 
 template<typename K, typename V>
-const V & LLRB_map<K, V>::Get(const K & key)
-{
-	Node* n = Get(root.get(), key);
+const V & LLRB_map<K, V>::Get(const K & key) {
+  Node* n = Get(root.get(), key);
 
-	if (!n) throw std::runtime_error("Could not find node.");
-	return n->value;
+  if (!n) throw std::runtime_error("Could not find node.");
+  return n->value;
 }
 
 template <typename K, typename V>
@@ -102,7 +101,7 @@ const K& LLRB_map<K, V>::Max(void) {
 
 template <typename K, typename V>
 const K& LLRB_map<K, V>::Min(void) {
-	if (root.get() == nullptr) throw std::runtime_error("No root node");
+  if (root.get() == nullptr) throw std::runtime_error("No root node");
 
   return Min(root.get())->key;
 }
@@ -200,8 +199,8 @@ void LLRB_map<K, V>::DeleteMin(std::unique_ptr<Node> &n) {
 template <typename K, typename V>
 void LLRB_map<K, V>::Remove(const K &key) {
   if (!Contains(key)) {
-	  throw std::runtime_error("Does not contain key");
-	  return;
+    throw std::runtime_error("Does not contain key");
+    return;
   }
   Remove(root, key);
   cur_size--;
@@ -236,7 +235,7 @@ void LLRB_map<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
       Node *n_min = Min(n->right.get());
       // Copy content from min node
       n->key = n_min->key;
-	  n->value = n_min->value; // ??????
+      n->value = n_min->value;
       // Delete min node recursively
       DeleteMin(n->right);
     } else {
@@ -255,7 +254,9 @@ void LLRB_map<K, V>::Insert(const K &key, const V & value) {
 }
 
 template <typename K, typename V>
-void LLRB_map<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V & value) {
+void LLRB_map<K, V>::Insert(std::unique_ptr<Node> &n,
+                            const K &key,
+                            const V & value) {
   if (!n)
     n = std::unique_ptr<Node>(new Node{key, value, RED});
   else if (key < n->key)
