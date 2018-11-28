@@ -21,18 +21,6 @@ class Task {
     stream << task._id;
     return stream;
   }
-  bool operator<(const Task* right) const {
-    if (_startTime < right->_startTime) {
-      return true;
-    }
-    if (_startTime > right->_startTime) {
-      return false;
-    }
-    if (_id < right->_id) {
-      return true;
-    }
-    return false;
-  }
 };
 
 
