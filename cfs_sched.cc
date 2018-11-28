@@ -9,7 +9,7 @@
 
 class Task {
 public:
-	char _id;
+	char _id; 
 	int _startTime;
 	int _duration; // max _runtime
 	int _runtime;
