@@ -39,7 +39,6 @@ class CFS
 {
 public:
 	CFS() {};
-	//~CFS();
 	bool IsEmpty() {
 		return tree.Size() == 0;
 	}
@@ -51,7 +50,7 @@ public:
 private:
 	LLRB_multimap<int, Task*> tree;
 	int min_vruntime;
-	
+
 
 };
 
@@ -60,6 +59,7 @@ void CFS::RunTask(int& tick) {
 	int key = tree.Min();
 	Task* task = tree.Get(key);
 	tree.Remove(key);
+
 	if (tree.Size() != 0 && tree.Min() != min_vruntime) {
 		min_vruntime++;
 	}
@@ -81,27 +81,31 @@ void CFS::RunTask(int& tick) {
 	if (task->_duration != task->_runtime) {
 		tree.Insert(task->_vRuntime, task);
 		std::cout << std::endl;
-	} else { // the task is done
+	}
+	else { // the task is done
 		std::cout << "*" << std::endl;
 	}
 
 }
 
 int main(int argc, char* argv[]) {
+	// if user does not enter enough arguments
 	if (argc != 2) {
 		std::cerr << "Usage: " << argv[0] << " <task_file.dat>" << std::endl;
-		return 1; // ???
+		return 1; 
 	}
 
 	std::ifstream in(argv[1]);
+	// if file cannot be opened successfully
 	if (!in.good()) {
 		std::cerr << "Error: cannot open file " << argv[1] << std::endl;
-		return 1; // ??? 
+		return 1;  
 	}
 
 	std::list<Task*> sortedTasks;
-	
+
 	char id;
+	// Insert tasks into list
 	while (in >> id) {
 		int startTime;
 		in >> startTime;
@@ -110,10 +114,12 @@ int main(int argc, char* argv[]) {
 		sortedTasks.push_back(new Task(id, startTime, duration));
 	}
 
-	for (Task* task : sortedTasks){
+	// Print unsorted list of tasks
+	for (Task* task : sortedTasks) {
 		std::cout << *task << std::endl;
 	}
 
+	// Sort list of tasks
 	sortedTasks.sort(
 		[](const Task* left, const Task* right) -> bool {
 		if (left->_startTime < right->_startTime) return true;
@@ -123,28 +129,34 @@ int main(int argc, char* argv[]) {
 	);
 	//sortedTasks.sort();
 	std::cout << std::endl;
+
+	// Print sorted list of tasks
 	for (Task* task : sortedTasks) {
 		std::cout << *task << std::endl;
 	}
 
+	// Set initial CFS variables
 	int min_vruntime = 0;
 	int tick = 0;
 	CFS cfs;
+
+	// While there are tasks in the list or while tree is not empty
 	while (sortedTasks.size() > 0 || !cfs.IsEmpty()) {
+		// While tick number is greater than the front task's start time, add task to tree and pop the front task
 		while ((sortedTasks.size() != 0) && (tick >= (sortedTasks.front())->_startTime)) {
 			cfs.AddTask(sortedTasks.front());
 			sortedTasks.pop_front();
 		}
 
-		// do tree stuff
+		// If tree is not empty, run a task
 		if (!cfs.IsEmpty()) {
 			cfs.RunTask(tick);
 		}
-		else {
+		else { // Otherwise, display appropriate printout
 			std::cout << tick << " [0] _ " << std::endl;
 		}
 		tick++;
 	}
 
- 	return 0;
+	return 0;
 }
