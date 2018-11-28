@@ -24,8 +24,7 @@ public:
 	void Remove(const K &key);
 	// Print tree in-order
 	void Print();
-	// Get min node list entry
-	
+	// Get first value in values associated with the key
 	const V& Get(const K& key);
 
 private:
@@ -84,6 +83,8 @@ template<typename K, typename V>
 const V & LLRB_multimap<K, V>::Get(const K & key)
 {
 	Node* n = Get(root.get(), key);
+
+	if (!n) throw std::runtime_error("Could not find node.");
 	return (n->values).front();
 }
 
@@ -95,12 +96,14 @@ bool LLRB_multimap<K, V>::Contains(const K &key) {
 template <typename K, typename V>
 const K& LLRB_multimap<K, V>::Max(void) {
 	Node *n = root.get();
+	if (!n) throw std::runtime_error("No root node");
 	while (n->right) n = n->right.get();
 	return n->key;
 }
 
 template <typename K, typename V>
 const K& LLRB_multimap<K, V>::Min(void) {
+	if (root.get() == nullptr) throw std::runtime_error("No root node");
 	return Min(root.get())->key;
 }
 
@@ -196,8 +199,11 @@ void LLRB_multimap<K, V>::DeleteMin(std::unique_ptr<Node> &n) {
 
 template <typename K, typename V>
 void LLRB_multimap<K, V>::Remove(const K &key) {
-	if (!Contains(key))
+	if (!Contains(key)) {
+		throw std::runtime_error("Does not contain key");
 		return;
+	}
+
 	Remove(root, key);
 	cur_size--;
 	if (root)
@@ -291,7 +297,7 @@ template <typename K, typename V>
 void LLRB_multimap<K, V>::Print(Node *n) {
 	if (!n) return;
 	Print(n->left.get());
-	std::cout << "<" << n->key << "~";
+	std::cout << "<" << n->key << " ~ ";
 	for(auto item : n->values)
 	{
 		std::cout << item << ", ";
