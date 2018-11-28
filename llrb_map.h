@@ -23,6 +23,8 @@ class LLRB_map {
   void Remove(const K &key);
   // Print tree in-order
   void Print();
+  // Get first value from key
+  const V& Get(const K& key);
 
  private:
   enum Color { RED, BLACK };
@@ -38,7 +40,6 @@ class LLRB_map {
 
   // Iterative helper methods
   Node* Get(Node *n, const K &key);
-  const V& Get(const K& key);
 
   // Recursive helper methods
   Node* Min(Node *n);
@@ -82,7 +83,7 @@ const V & LLRB_map<K, V>::Get(const K & key)
 {
 	Node* n = Get(root.get(), key);
 
-	if (!n) throw std::runtime_error("Could not find node. (MIGHT NEED TO REWORD THIS ERROR STRING)");
+	if (!n) throw std::runtime_error("Could not find node.");
 	return n->value;
 }
 
@@ -94,12 +95,15 @@ bool LLRB_map<K, V>::Contains(const K &key) {
 template <typename K, typename V>
 const K& LLRB_map<K, V>::Max(void) {
   Node *n = root.get();
+  if (!n) throw std::runtime_error("No root node");
   while (n->right) n = n->right.get();
   return n->key;
 }
 
 template <typename K, typename V>
 const K& LLRB_map<K, V>::Min(void) {
+	if (root.get() == nullptr) throw std::runtime_error("No root node");
+
   return Min(root.get())->key;
 }
 
@@ -195,8 +199,10 @@ void LLRB_map<K, V>::DeleteMin(std::unique_ptr<Node> &n) {
 
 template <typename K, typename V>
 void LLRB_map<K, V>::Remove(const K &key) {
-  if (!Contains(key))
-    return;
+  if (!Contains(key)) {
+	  throw std::runtime_error("Does not contain key");
+	  return;
+  }
   Remove(root, key);
   cur_size--;
   if (root)
