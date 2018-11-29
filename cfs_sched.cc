@@ -110,8 +110,7 @@ int main(int argc, char* argv[]) {
     return (left->_id < right->_id);
     });
 
-  // Set initial CFS variables
-  int min_vruntime = 0;
+  // Initialize tick time to 0, and create scheduler object
   int tick = 0;
   CFS cfs;
 

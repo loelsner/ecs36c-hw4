@@ -223,10 +223,6 @@ void LLRB_multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
     if (IsRed(n->left.get()))
       RotateRight(n);
 
-    bool test =(nullptr == n->right);
-    bool test2 = (key == n->key);
-    bool test4 = !(n->right);
-    bool test3 = ((key == n->key) && !n->right);
     if ((key == n->key) && !n->right) {
       // Remove n
       if (n->values.size() == 1) {
@@ -303,4 +299,4 @@ void LLRB_multimap<K, V>::Print(Node *n) {
   Print(n->right.get());
 }
 
-#endif  // LLRB_multimap_H_
+#endif  // LLRB_MULTIMAP_H_
